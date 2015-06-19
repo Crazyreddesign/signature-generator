@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Signature</title>
+</head>
+<body onload="generate()" style="width:406px;">
+    <script>
+        var qParameters = [];
+        var qValues = [];
+
+        function parseQueryString() {
+            var query = window.location.search.substr(1); // Remove the ?
+            var qParts = query.split("&");
+            for (var i = 0; i < qParts.length; i++) {
+                var x = qParts[i];
+                var y = x.split("=");
+                var index = qParameters.length;
+
+                qParameters[index] = y[0];
+
+                if (y.length > 0) {
+                    qValues[index] = decodeURI(y[1]);   // Converts any escaped characters back (spaces need this)
+                } else {
+                    qValues[index] = "";
+                }
+            }
+        }
+
+        function getValue(parameter) {
+            for (var i = 0; i < qParameters.length; i++) {
+                if (qParameters[i] == parameter) {
+                    return qValues[i];
+                }
+            }
+
+            return "";
+        }
+
+        function generate() {
+            parseQueryString();
+
+            document.getElementById("employee").innerHTML = getValue("employee");
+            document.getElementById("title").innerHTML = getValue("title");
+            document.getElementById("email").innerHTML = getValue("email");
+            document.getElementById("email").href = "mailto:" + getValue("email");
+
+            var office = getValue("officePhone");
+            /* Remove any non-number characters */
+            office = office.replace(/[^\d]/g, "");
+            /* Find the digits for a phone number so they can be combined with '.' */
+            var y = office.match(/(\d{3})(\d{3})(\d{4})/);
+            document.getElementById("officePhone").innerHTML = y[1] + "." + y[2] + "." + y[3];
+            document.getElementById("officePhone").href = "tel:" + office;
+
+            var cell = getValue("cellPhone");
+            if (cell.length > 0) {
+                /* Remove any non-number characters */
+                cell = cell.replace(/[^\d]/g, "");
+                /* Find the digits for a phone number so they can be combined with '.' */
+                var y = cell.match(/(\d{3})(\d{3})(\d{4})/);
+                document.getElementById("cellPhone").innerHTML = y[1] + "." + y[2] + "." + y[3];
+                document.getElementById("cellPhone").href = "tel:" + cell;
+            } else {
+                document.getElementById("cellSpan").innerHTML = "";
+            }
+        }
+    </script>
+   <div id="signature" style="width:406px;">
+    <div>
+        <div style="padding:0px;">
+            <div style="padding:0px;"><font face="Calibri" color="#717074" style="font-size: 12pt"><strong id="employee">John Doe</strong></font>
+                <br><font id="title" face="Calibri" color="#717074">Dynamic Integration Facilitator</font> 
+                <br><font face="Calibri"><a id="email" style="color:#0067B1; text-decoration:none;" href="mailto:maggie.barnes@medfusion.com" target="_blank">john.doe@medfusion.com</a></font>
+                <br><font face="Calibri" ; color="#717074">O: <a id="officePhone" style="color:#717074; text-decoration:none;" href="tel:919-882-2857" value="+19198822857" target="_blank">919.882.2857</a> <span id="cellSpan">| C: <a id="cellPhone" style="color:#717074; text-decoration:none;" href="tel:919-882-2857" value="+19198822857" target="_blank">919.882.2857</a></span><br></font>
+            </div>
+        </div>
+        <div style="padding:0px;">
+            <div style="width:260px; height:48px; padding:0px;"><a href="http://www.medfusion.com" target="_blank"><img src="https://s3.amazonaws.com/mf-internal/signature/image/medfusion_RGB_260px.png" alt="medfusion,inc" nosend="1" width="260px" height="48px"></a>
+            </div>
+        </div>
+        <div style="padding:0px">
+            <div style="padding:0px"><font face="Calibri"> <a style="color:#0067B1; text-decoration:none;" href="http://medfusion.com/patientengagementsystems?utm_source=email%20signature%20line&utm_medium=Email&utm_campaign=email%20signature%20line" target="_blank"> <i><strong> Learn why over 10 million patients use the Medfusion portal</strong></i></a></font>
+            </div>
+        </div>
+        <div style="padding:0px;">
+            <div style="width:406px; height:28px; padding:0px;"><a href="https://www.facebook.com/pages/Medfusion/248740485299902" target="_blank"><img src="http://i.imgur.com/ia21xls.png" alt="facebook link" nosend="1" width="24px" height="24px" style="margin:4px 0px 0px 0px;"></a>&nbsp;&nbsp;<a href="https://twitter.com/medfusion" target="_blank"><img src="http://i.imgur.com/sWBhERF.png" alt="twitter link" nosend="1" width="24px" height="24px" style="margin:4px 0px 0px 0px;"></a>&nbsp;&nbsp;<a href="https://www.linkedin.com/company/medfusion-inc-" target="_blank"><img src="http://i.imgur.com/jbZJjeU.png" alt="linkedin link" nosend="1" width="24px" height="24px" style="margin:4px 0px 0px 0px;"></a>&nbsp;&nbsp;<a href="https://s3.amazonaws.com/mf-internal/redirect/index.html" target="_blank"><img src="http://i.imgur.com/M4BAA4z.png" alt="youtube link" nosend="1" width="24px" height="24px" style="margin:4px 0px 0px 0px;"></a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
